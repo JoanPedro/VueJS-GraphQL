@@ -1,12 +1,28 @@
-const {ApoloServer, graphQL} = require('apollo-server')
+const { ApolloServer, gql } = require('apollo-server')
 
-const typeDefs = graphQL`
-
+const typeDefs = gql`
+    # Pontos de Entrada da API
+    type Query {
+        ola: String
+        horaAtual: String
+    }
 `
 
-const resolvers = {}
+const resolvers = {
+    Query: {
+        ola() {           
+            return 'Saudação'
+        },
+        horaAtual () {
+            now = new Date
+            return now.toString()        // Para retornar a forma String do Objeto. 
+                                        //  Se não seria o formato int NTP.
+            /* return `${new Date}` */
+        }
+    }
+}
 
-const server = new ApoloServer ({
+const server = new ApolloServer({
     typeDefs, 
     resolvers
 })
