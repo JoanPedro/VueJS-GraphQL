@@ -4,6 +4,13 @@ const typeDefs = gql`
     # Pontos de Entrada da API
     scalar Date
 
+    type Produto {
+        nome: String!
+        preco: Float!
+        desconto: Float
+        precoComDesconto: Float
+    }
+    
     type Atributo {
         forca: Float!
         agilidade: Float!
@@ -24,10 +31,21 @@ const typeDefs = gql`
         horaAtual: String!
         formaScalar: Date!
         criarPersonagem: Personagem
+        produtoEmDestaque: Produto
+        numerosEmArray: [Int!]!
     }
 `
 
 const resolvers = {
+    Produto: {
+        precoComDesconto(produto) {
+            valorDesconto = produto.preco * (1 - produto.desconto)
+            produto.precoComDesconto = (valorDesconto)
+            
+            return produto.precoComDesconto
+        }
+    },
+
     Query: {
         ola() {           
             return 'Saudação'
@@ -54,6 +72,20 @@ const resolvers = {
                 },
                 master: true                
             }
+        },
+        produtoEmDestaque() {
+            return {
+                nome: 'Alcool em Gel',
+                preco: 18.59,
+                desconto: 0.15,
+            }
+        },
+        numerosEmArray() {
+            // return [1, 2, 3 ,4]
+            const ordenado = (a, b) => a - b
+            return Array(10).fill(0)
+                    .map(numberal => parseInt(Math.random() * 61))
+                    .sort(ordenado)
         }
 
     }
