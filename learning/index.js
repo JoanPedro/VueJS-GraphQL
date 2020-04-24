@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql } = require('apollo-server') // Servidor do Apollo
 
 const typeDefs = gql`
     # Pontos de Entrada da API
